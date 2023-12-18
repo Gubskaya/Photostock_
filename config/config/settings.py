@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'photoapp',
     'taggit',
     'users',
+    # 'crispy_forms',
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,3 +137,7 @@ LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'photo:list'
 
 LOGOUT_REDIRECT_URL = 'photo:list'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
