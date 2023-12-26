@@ -5,7 +5,7 @@
   {% for photo in photos %}
   <div class="col-lg-3 col-md-4 col-xs-6">
     <a href="{% url 'photo:detail' photo.id %}" class="d-block mb-4 h-100">
-      <img src="{{photo.image.url}}" class="img-fluid rounded" alt="{{photo.title}}" />
+      <img src="{{ photo.watermarked_image.url }}" class="img-fluid rounded" alt="{{photo.title}}" width="100%" />
     </a>
   </div>
   {% endfor %}

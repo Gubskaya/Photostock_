@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'taggit',
     'users',
     # 'crispy_forms',
+    'PIL',
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
@@ -123,6 +124,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -138,6 +143,6 @@ LOGIN_REDIRECT_URL = 'photo:list'
 
 LOGOUT_REDIRECT_URL = 'photo:list'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 

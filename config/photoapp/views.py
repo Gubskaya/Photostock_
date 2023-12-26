@@ -6,6 +6,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Photo
 
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
+from django.http import HttpResponse
+
 
 class PhotoListView(ListView):
     model = Photo
@@ -32,6 +36,36 @@ class PhotoDetailView(DetailView):
     model = Photo
     template_name = 'photoapp/detail.html'
     context_object_name = 'photo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.request.user.is_authenticated:
+            photo = context['photo']
+            watermark_path = 'static/watermarks/watermark.png'
+            watermarked_image = self.apply_watermark(photo.image, watermark_path)
+            photo.watermarked_image.save(photo.image.name, watermarked_image, save=True)
+            context['photo'] = photo
+        return context
+
+    def apply_watermark(self, image_path, watermark_path):
+        img = Image.open(image_path.path)
+        watermark = Image.open(watermark_path)
+
+        width, height = img.size
+        resized_watermark = watermark.resize((width, height))
+
+        mask = resized_watermark.split()[3]
+        # mask = Image.new("L", resized_watermark.size, 0)
+        # draw = ImageDraw.Draw(mask)
+        # draw.rectangle((0, 0, resized_watermark.width, resized_watermark.height), fill=255)
+
+        img.paste(resized_watermark, (0, 0), mask)
+
+        output = BytesIO()
+        img.save(output, format='PNG')
+        output.seek(0)
+
+        return output
 
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
