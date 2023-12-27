@@ -53,6 +53,7 @@ class PhotoDetailView(DetailView):
 
         return context
 
+
 class PhotoCreateView(LoginRequiredMixin, CreateView):
     model = Photo
     fields = ['title', 'description', 'image', 'tags']

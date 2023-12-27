@@ -6,6 +6,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from taggit.managers import TaggableManager
 
+
 class Photo(models.Model):
     title = models.CharField(max_length=45)
     description = models.CharField(max_length=250)
@@ -14,7 +15,6 @@ class Photo(models.Model):
     watermarked_image = models.ImageField(upload_to='watermarks/', blank=True, null=True)
     submitter = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     tags = TaggableManager()
-    # uploaded_images_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
