@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
 <div class="mx-auto">
   <h1 class="text-center">{{ photo.title }}</h1>
   <p class="text-center fw-light">Uploaded on: {{photo.created}} <br> By {{photo.submitter.username}}</p>
@@ -14,10 +15,10 @@
 <div class="row pb-5">
   <div class="col-md-8">
     {% if user.is_authenticated %}
-      {% if user.uploaded_images_count > 3 %}
-        <img src="{{ photo.watermarked_image.url }}" alt="" width="100%" />
-      {% else %}
+      {% if uploaded_images_count > 3 %}
         <img src="{{ photo.image.url }}" alt="" width="100%" />
+      {% else %}
+        <img src="{{ photo.watermarked_image.url }}" alt="" width="100%" />
       {% endif %}
     {% endif %}
   </div>

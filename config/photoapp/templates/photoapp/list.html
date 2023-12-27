@@ -4,27 +4,23 @@
 
 <div class="row">
   {% for photo in photos %}
-    {% if user.is_authenticated %}
-      {% if user.uploaded_images_count > 3 %}
-        <div class="col-lg-3 col-md-4 col-xs-6">
+    <div class="col-lg-3 col-md-4 col-xs-6">
+      {% if user.is_authenticated %}
+        {% if uploaded_images_count > 3 %}
           <a href="{% url 'photo:detail' photo.id %}" class="d-block mb-4 h-100">
             <img src="{{ photo.image.url }}" class="img-fluid rounded" alt="{{photo.title}}" width="100%" />
           </a>
-        </div>
-      {% else %}
-        <div class="col-lg-3 col-md-4 col-xs-6">
+        {% else %}
           <a href="{% url 'photo:detail' photo.id %}" class="d-block mb-4 h-100">
             <img src="{{ photo.watermarked_image.url }}" class="img-fluid rounded" alt="{{photo.title}}" width="100%" />
           </a>
-        </div>
-      {% endif %}
-    {% else %}
-      <div class="col-lg-3 col-md-4 col-xs-6">
+        {% endif %}
+      {% else %}
         <a href="{% url 'user:login' %}" class="d-block mb-4 h-100">
           <img src="{{ photo.watermarked_image.url }}" class="img-fluid rounded" alt="{{photo.title}}" width="100%" />
         </a>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
   {% endfor %}
 </div>
 

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -12,6 +11,16 @@ class PhotoListView(ListView):
     model = Photo
     template_name = 'photoapp/list.html'
     context_object_name = 'photos'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        if user.is_authenticated:
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            context['uploaded_images_count'] = profile.uploaded_images_count
+
+        return context
 
 
 class PhotoTagListView(PhotoListView):
@@ -34,6 +43,15 @@ class PhotoDetailView(DetailView):
     template_name = 'photoapp/detail.html'
     context_object_name = 'photo'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        if user.is_authenticated:
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            context['uploaded_images_count'] = profile.uploaded_images_count
+
+        return context
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
     model = Photo
@@ -41,10 +59,6 @@ class PhotoCreateView(LoginRequiredMixin, CreateView):
     template_name = 'photoapp/create.html'
     success_url = reverse_lazy('photo:list')
 
-    # def form_valid(self, form):
-    #     form.instance.submitter = self.request.user
-    #
-    #     return super().form_valid(form)
     def form_valid(self, form):
         form.instance.submitter = self.request.user
 
