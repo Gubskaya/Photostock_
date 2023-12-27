@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Photo
+from users.models import UserProfile
 
 
 class PhotoListView(ListView):
@@ -40,12 +41,17 @@ class PhotoCreateView(LoginRequiredMixin, CreateView):
     template_name = 'photoapp/create.html'
     success_url = reverse_lazy('photo:list')
 
+    # def form_valid(self, form):
+    #     form.instance.submitter = self.request.user
+    #
+    #     return super().form_valid(form)
     def form_valid(self, form):
         form.instance.submitter = self.request.user
-        current_user = self.request.user
 
-        current_user.uploaded_images_count = Photo.objects.filter(submitter=current_user).count() + 1
-        current_user.save()
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+
+        profile.uploaded_images_count += 1
+        profile.save()
 
         return super().form_valid(form)
 

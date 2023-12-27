@@ -14,7 +14,7 @@
 <div class="row pb-5">
   <div class="col-md-8">
     {% if user.is_authenticated %}
-      {% if user.uploaded_images_count <= 3 %}
+      {% if user.uploaded_images_count > 3 %}
         <img src="{{ photo.watermarked_image.url }}" alt="" width="100%" />
       {% else %}
         <img src="{{ photo.image.url }}" alt="" width="100%" />
