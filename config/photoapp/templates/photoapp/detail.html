@@ -17,8 +17,14 @@
     {% if user.is_authenticated %}
       {% if uploaded_images_count > 3 %}
         <img src="{{ photo.image.url }}" alt="" width="100%" />
+      <div class="mt-3">
+        <a href="{{ photo.image.url }}" download="{{ photo.title }}" class="btn btn-primary">Download</a>
+      </div>
       {% else %}
         <img src="{{ photo.watermarked_image.url }}" alt="" width="100%" />
+      <div class="mt-3">
+        <a href="{{ photo.watermarked_image.url }}" download="{{ photo.title }}" class="btn btn-primary">Download</a>
+      </div>
       {% endif %}
     {% endif %}
   </div>
